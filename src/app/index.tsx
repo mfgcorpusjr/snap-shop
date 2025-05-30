@@ -7,6 +7,8 @@ import { useHeaderHeight } from "@react-navigation/elements";
 
 import CategoryListItem from "@/components/CategoryListItem";
 import ProductListItem from "@/components/ProductListItem";
+import CategoryListShimmer from "@/components/shimmers/CategoryListShimmer";
+import ProductListShimmer from "@/components/shimmers/ProductListShimmer";
 import ListEmpty from "@/components/ListEmpty";
 
 import { getCategories, getProducts } from "@/services/products";
@@ -17,12 +19,13 @@ export default function HomeScreen() {
 
   const headerHeight = useHeaderHeight();
 
-  const { data: categoriesData = [] } = useQuery({
-    queryKey: ["categories"],
-    queryFn: getCategories,
-  });
+  const { isLoading: categoriesIsLoading, data: categoriesData = [] } =
+    useQuery({
+      queryKey: ["categories"],
+      queryFn: getCategories,
+    });
 
-  const { isLoading, data: productsData = [] } = useQuery({
+  const { isLoading: productsIsLoading, data: productsData = [] } = useQuery({
     queryKey: ["products"],
     queryFn: getProducts,
   });
@@ -49,30 +52,38 @@ export default function HomeScreen() {
       />
 
       <View style={styles.categoriesContainer}>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.categoriesContentContainer}
-        >
-          {categories.map((category) => (
-            <CategoryListItem
-              key={category}
-              category={category}
-              isSelected={category === selectedCategory}
-              onPress={() => setSelectedCategory(category)}
-            />
-          ))}
-        </ScrollView>
+        {categoriesIsLoading ? (
+          <CategoryListShimmer />
+        ) : (
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.categoriesContentContainer}
+          >
+            {categories.map((category) => (
+              <CategoryListItem
+                key={category}
+                category={category}
+                isSelected={category === selectedCategory}
+                onPress={() => setSelectedCategory(category)}
+              />
+            ))}
+          </ScrollView>
+        )}
       </View>
 
-      <FlashList
-        data={products}
-        renderItem={({ item }) => <ProductListItem product={item} />}
-        ListEmptyComponent={<ListEmpty text="No products found" />}
-        estimatedItemSize={200}
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
-      />
+      {productsIsLoading ? (
+        <ProductListShimmer />
+      ) : (
+        <FlashList
+          data={products}
+          renderItem={({ item }) => <ProductListItem product={item} />}
+          ListEmptyComponent={<ListEmpty text="No products found" />}
+          estimatedItemSize={200}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
     </View>
   );
 }
