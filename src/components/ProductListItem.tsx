@@ -1,4 +1,5 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, Pressable, Text } from "react-native";
+import { Link } from "expo-router";
 import { Image } from "expo-image";
 import { Product } from "@/types";
 
@@ -10,13 +11,15 @@ type ProductListItemProps = {
 
 export default function ProductListItem({ product }: ProductListItemProps) {
   return (
-    <View style={styles.container}>
-      <Image style={styles.image} source={{ uri: product.image }} />
-      <Text style={styles.title} numberOfLines={2}>
-        {product.title}
-      </Text>
-      <Text style={styles.price}>${product.price}</Text>
-    </View>
+    <Link href={`/products/${product.id}`} asChild>
+      <Pressable style={styles.container}>
+        <Image style={styles.image} source={{ uri: product.image }} />
+        <Text style={styles.title} numberOfLines={2}>
+          {product.title}
+        </Text>
+        <Text style={styles.price}>${product.price}</Text>
+      </Pressable>
+    </Link>
   );
 }
 

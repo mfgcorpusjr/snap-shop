@@ -1,5 +1,7 @@
 import { StyleSheet, Pressable, Text } from "react-native";
 
+import { upperCaseFirstLetter } from "@/utils/string";
+
 import colors from "@/constants/colors";
 
 type CategoryListItem = {
@@ -19,7 +21,7 @@ export default function CategoryListItem({
       onPress={onPress}
     >
       <Text style={[styles.text, isSelected && styles.selectedText]}>
-        {category.charAt(0).toUpperCase() + category.slice(1)}
+        {upperCaseFirstLetter(category)}
       </Text>
     </Pressable>
   );
