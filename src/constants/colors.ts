@@ -1,3 +1,3 @@
 export default {
-  primary: "darkviolet",
+  primary: "teal",
 };

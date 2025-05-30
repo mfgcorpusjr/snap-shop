@@ -3,7 +3,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import colors from "@/constants/colors";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60, // 1 minute
+    },
+  },
+});
 
 export default function RootLayout() {
   return (
@@ -17,6 +23,11 @@ export default function RootLayout() {
             headerTitleStyle: {
               color: colors.primary,
               fontWeight: "bold",
+            },
+            headerSearchBarOptions: {
+              placeholder: "Search",
+              hideWhenScrolling: false,
+              hideNavigationBar: false,
             },
           }}
         />
