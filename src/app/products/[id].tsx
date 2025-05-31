@@ -6,10 +6,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useLocalSearchParams, Stack } from "expo-router";
+import { useLocalSearchParams, Stack, router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQuery } from "@tanstack/react-query";
 import { Image } from "expo-image";
+import Snackbar from "react-native-snackbar";
 
 import ProductItemShimmer from "@/components/shimmers/ProductItemShimmer";
 import ListEmpty from "@/components/ListEmpty";
@@ -33,6 +34,19 @@ export default function ProductDetailsScreen() {
   const addToCart = useCartStore((state) => state.addToCart);
 
   const { bottom } = useSafeAreaInsets();
+
+  const handleAddToCart = () => {
+    if (data) {
+      addToCart(data);
+
+      Snackbar.show({
+        text: "Item added to your cart.",
+        duration: Snackbar.LENGTH_SHORT,
+      });
+
+      router.back();
+    }
+  };
 
   if (isLoading) {
     return <ProductItemShimmer />;
@@ -71,7 +85,7 @@ export default function ProductDetailsScreen() {
 
       <TouchableOpacity
         style={[styles.addToCartButtonContainer, { paddingBottom: bottom }]}
-        onPress={() => addToCart(data)}
+        onPress={handleAddToCart}
       >
         <Ionicons name="cart" size={24} color="white" />
         <Text style={styles.addToCartButtonText}>Add to Cart</Text>
