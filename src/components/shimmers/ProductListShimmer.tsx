@@ -1,5 +1,4 @@
-import { StyleSheet, View } from "react-native";
-import { FlashList } from "@shopify/flash-list";
+import { StyleSheet, FlatList, View } from "react-native";
 import { createShimmerPlaceholder } from "react-native-shimmer-placeholder";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -18,7 +17,7 @@ const ProductListItemShimmer = () => {
 
 export default function ProductListShimmer() {
   return (
-    <FlashList
+    <FlatList
       data={[...Array(6).keys()]}
       renderItem={() => <ProductListItemShimmer />}
       keyExtractor={(item) => item.toString()}

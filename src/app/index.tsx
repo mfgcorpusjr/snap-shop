@@ -25,7 +25,12 @@ export default function HomeScreen() {
       queryFn: getCategories,
     });
 
-  const { isLoading: productsIsLoading, data: productsData = [] } = useQuery({
+  const {
+    isLoading: productsIsLoading,
+    data: productsData = [],
+    refetch,
+    isRefetching,
+  } = useQuery({
     queryKey: ["products"],
     queryFn: getProducts,
   });
@@ -82,6 +87,8 @@ export default function HomeScreen() {
           estimatedItemSize={200}
           numColumns={2}
           showsVerticalScrollIndicator={false}
+          onRefresh={refetch}
+          refreshing={isRefetching}
         />
       )}
     </View>
