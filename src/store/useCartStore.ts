@@ -17,6 +17,7 @@ type CartStore = {
   count: number;
   addToCart: (product: Product) => void;
   substractFromCart: (product: Product) => void;
+  removeFromCart: (product: CartProduct) => void;
   clearCart: () => void;
 };
 
@@ -72,6 +73,21 @@ const useCartStore = create<CartStore>()(
             (state.totalPrice - product.price).toFixed(2)
           );
           const count = state.count - 1;
+
+          return {
+            products,
+            totalPrice,
+            count,
+          };
+        });
+      },
+      removeFromCart: (product: CartProduct) => {
+        set((state) => {
+          const products = state.products.filter((p) => p.id !== product.id);
+          const totalPrice = Number(
+            (state.totalPrice - product.price * product.quantity).toFixed(2)
+          );
+          const count = state.count - product.quantity;
 
           return {
             products,
