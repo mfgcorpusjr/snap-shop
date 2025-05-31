@@ -12,3 +12,5 @@ export type Rating = {
   rate: number;
   count: number;
 };
+
+export type CartProduct = Product & { quantity: number };

@@ -1,4 +1,10 @@
-import { StyleSheet, View, ScrollView, Text, Pressable } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useLocalSearchParams, Stack } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -7,6 +13,8 @@ import { Image } from "expo-image";
 
 import ProductItemShimmer from "@/components/shimmers/ProductItemShimmer";
 import ListEmpty from "@/components/ListEmpty";
+
+import useCartStore from "@/store/useCartStore";
 
 import { getProduct } from "@/services/products";
 
@@ -21,6 +29,8 @@ export default function ProductDetailsScreen() {
     queryKey: ["products", id],
     queryFn: () => getProduct(Number(id)),
   });
+
+  const addToCart = useCartStore((state) => state.addToCart);
 
   const { bottom } = useSafeAreaInsets();
 
@@ -59,12 +69,13 @@ export default function ProductDetailsScreen() {
         </View>
       </ScrollView>
 
-      <Pressable
+      <TouchableOpacity
         style={[styles.addToCartButtonContainer, { paddingBottom: bottom }]}
+        onPress={() => addToCart(data)}
       >
         <Ionicons name="cart" size={24} color="white" />
         <Text style={styles.addToCartButtonText}>Add to Cart</Text>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 }
