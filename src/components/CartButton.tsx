@@ -1,5 +1,6 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, Pressable, View, Text } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { Link } from "expo-router";
 
 import useCartStore from "@/store/useCartStore";
 
@@ -9,14 +10,16 @@ export default function CartButton() {
   const count = useCartStore((state) => state.count);
 
   return (
-    <View style={styles.iconWrapper}>
-      <Ionicons name="cart-outline" size={24} color="black" />
-      {count > 0 && (
-        <View style={styles.badge}>
-          <Text style={styles.badgeText}>{count}</Text>
-        </View>
-      )}
-    </View>
+    <Link href="/cart" asChild>
+      <Pressable style={styles.iconWrapper}>
+        <Ionicons name="cart-outline" size={24} color="black" />
+        {count > 0 && (
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>{count}</Text>
+          </View>
+        )}
+      </Pressable>
+    </Link>
   );
 }
 

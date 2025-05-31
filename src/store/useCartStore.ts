@@ -28,7 +28,9 @@ const useCartStore = create<CartStore>()(
       addToCart: (product: Product) => {
         set((state) => {
           const hasProduct = state.products.some((p) => p.id === product.id);
-          const totalPrice = state.totalPrice + product.price;
+          const totalPrice = Number(
+            (state.totalPrice + product.price).toFixed(2)
+          );
           const count = state.count + 1;
 
           if (hasProduct) {
@@ -66,7 +68,9 @@ const useCartStore = create<CartStore>()(
             })
             .filter((p) => p.quantity > 0);
 
-          const totalPrice = state.totalPrice - product.price;
+          const totalPrice = Number(
+            (state.totalPrice - product.price).toFixed(2)
+          );
           const count = state.count - 1;
 
           return {
@@ -77,7 +81,7 @@ const useCartStore = create<CartStore>()(
         });
       },
       clearCart: () => {
-        set(INITIAL_VALUE);
+        set({ ...INITIAL_VALUE });
       },
     }),
     {

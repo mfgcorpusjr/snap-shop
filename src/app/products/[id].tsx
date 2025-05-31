@@ -1,19 +1,13 @@
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, View, ScrollView, Text } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useLocalSearchParams, Stack, router } from "expo-router";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQuery } from "@tanstack/react-query";
 import { Image } from "expo-image";
 import Snackbar from "react-native-snackbar";
 
 import ProductItemShimmer from "@/components/shimmers/ProductItemShimmer";
 import ListEmpty from "@/components/ListEmpty";
+import BottomButton from "@/components/BottomButton";
 
 import useCartStore from "@/store/useCartStore";
 
@@ -32,8 +26,6 @@ export default function ProductDetailsScreen() {
   });
 
   const addToCart = useCartStore((state) => state.addToCart);
-
-  const { bottom } = useSafeAreaInsets();
 
   const handleAddToCart = () => {
     if (data) {
@@ -83,13 +75,11 @@ export default function ProductDetailsScreen() {
         </View>
       </ScrollView>
 
-      <TouchableOpacity
-        style={[styles.addToCartButtonContainer, { paddingBottom: bottom }]}
+      <BottomButton
+        text="Add to Cart"
+        icon={<Ionicons name="cart" size={24} color="white" />}
         onPress={handleAddToCart}
-      >
-        <Ionicons name="cart" size={24} color="white" />
-        <Text style={styles.addToCartButtonText}>Add to Cart</Text>
-      </TouchableOpacity>
+      />
     </View>
   );
 }
@@ -139,18 +129,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "grey",
     marginLeft: 8,
-  },
-  addToCartButtonContainer: {
-    backgroundColor: colors.primary,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 8,
-    padding: 16,
-  },
-  addToCartButtonText: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "white",
   },
 });

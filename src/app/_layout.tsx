@@ -1,4 +1,5 @@
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -38,6 +39,21 @@ export default function RootLayout() {
             name="products/[id]"
             options={{
               headerBackTitle: "Products",
+            }}
+          />
+          <Stack.Screen
+            name="cart"
+            options={{
+              title: "Cart",
+              presentation: "modal",
+              headerLeft: () => (
+                <Ionicons
+                  name="close"
+                  size={24}
+                  color="black"
+                  onPress={() => router.dismiss()}
+                />
+              ),
             }}
           />
         </Stack>
