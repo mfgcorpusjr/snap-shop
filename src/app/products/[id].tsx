@@ -1,4 +1,4 @@
-import { StyleSheet, View, ScrollView, Text } from "react-native";
+import { StyleSheet, View, ScrollView, Text, Share } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useLocalSearchParams, Stack, router } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
@@ -40,6 +40,15 @@ export default function ProductDetailsScreen() {
     }
   };
 
+  const handleShare = async () => {
+    const url = `snap-shop://products/${id}`;
+
+    await Share.share({
+      message: `Check out this product on SnapShop: ${url}`,
+      url,
+    });
+  };
+
   if (isLoading) {
     return <ProductItemShimmer />;
   }
@@ -50,7 +59,19 @@ export default function ProductDetailsScreen() {
 
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ title: data.title }} />
+      <Stack.Screen
+        options={{
+          title: data.title,
+          headerRight: () => (
+            <Ionicons
+              name="share-outline"
+              size={24}
+              color="black"
+              onPress={handleShare}
+            />
+          ),
+        }}
+      />
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <Image
