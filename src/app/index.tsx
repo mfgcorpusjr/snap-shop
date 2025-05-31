@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
-import { Stack } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import { FlashList } from "@shopify/flash-list";
-import { useHeaderHeight } from "@react-navigation/elements";
 
 import CategoryListItem from "@/components/CategoryListItem";
 import ProductListItem from "@/components/ProductListItem";
+import SearchInput from "@/components/SearchInput";
 import CategoryListShimmer from "@/components/shimmers/CategoryListShimmer";
 import ProductListShimmer from "@/components/shimmers/ProductListShimmer";
 import ListEmpty from "@/components/ListEmpty";
@@ -16,8 +15,6 @@ import { getCategories, getProducts } from "@/services/products";
 export default function HomeScreen() {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-
-  const headerHeight = useHeaderHeight();
 
   const { isLoading: categoriesIsLoading, data: categoriesData = [] } =
     useQuery({
@@ -47,14 +44,10 @@ export default function HomeScreen() {
   });
 
   return (
-    <View style={[styles.container, { marginTop: headerHeight }]}>
-      <Stack.Screen
-        options={{
-          headerSearchBarOptions: {
-            onChangeText: (e) => setSearch(e.nativeEvent.text),
-          },
-        }}
-      />
+    <View style={styles.container}>
+      <View style={styles.searchInputContainer}>
+        <SearchInput value={search} onChangeText={setSearch} />
+      </View>
 
       <View style={styles.categoriesContainer}>
         {categoriesIsLoading ? (
@@ -98,6 +91,10 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  searchInputContainer: {
+    padding: 12,
+    backgroundColor: "white",
   },
   categoriesContainer: {
     backgroundColor: "white",

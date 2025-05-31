@@ -31,11 +31,6 @@ export default function RootLayout() {
             options={{
               title: "SnapShop",
               headerShadowVisible: false,
-              headerSearchBarOptions: {
-                placeholder: "Search",
-                hideWhenScrolling: false,
-                hideNavigationBar: false,
-              },
               headerRight: () => <CartButton />,
             }}
           />
