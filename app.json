@@ -29,6 +29,16 @@
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
-    "plugins": ["expo-router"]
+    "plugins": [
+      "expo-router",
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "project": "snap-shop",
+          "organization": "corpus-o7"
+        }
+      ]
+    ]
   }
 }
